@@ -1,0 +1,4 @@
+#intellij files to ignore
+.idea/
+*.iml
+.target/
