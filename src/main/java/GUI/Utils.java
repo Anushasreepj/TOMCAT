@@ -8,11 +8,20 @@ class Utils {
         return (int) Math.min(size.getWidth(), size.getHeight());
     }
 
-    public static int getWindowWidth() {
-        return getMinimumResolution() / 100 * 85;
+    public static Dimension getWindowSize() {
+        return new Dimension(
+            getMinimumResolution() / 100 * 90,
+            getMinimumResolution() / 100 * 95
+        );
     }
 
-    public static int getWindowHeight() {
-        return getMinimumResolution() / 100 * 90;
+    public static Dimension getSimulationSize() {
+        Dimension windowSize = getWindowSize();
+        int minDimen = Math.min(windowSize.width, windowSize.height);
+
+        return new Dimension(
+            minDimen / 100 * 90,
+            minDimen / 100 * 90
+        );
     }
 }

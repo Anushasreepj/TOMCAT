@@ -1,4 +1,4 @@
-import GUI.SimulationWindow;
+import GUI.WindowUI;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ public class GameOfLife {
             System.err.println("Failed to initialize LaF");
         }
 
-        SimulationWindow simulationWindow = new SimulationWindow();
+        WindowUI simulationWindow = new WindowUI();
         simulationWindow.createWindow();
     }
 }

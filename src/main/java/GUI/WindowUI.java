@@ -1,13 +1,15 @@
 package GUI;
 
-import Logic.GameBoard;
+import Logic.Simulation;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class SimulationWindow {
-    final int SPACING = 3;
+public class WindowUI {
+    final int SPACING = 2;
+
+    int cellSize = 15;
 
     JFrame jFrame = null;
 
@@ -19,11 +21,11 @@ public class SimulationWindow {
     JSpinner spnWidth = null;
     JSpinner spnHeight = null;
 
-    GameBoard gameBoard = null;
+    Simulation simulation = null;
 
     public void createWindow() {
         jFrame = new JFrame("Game Of Life");
-        jFrame.setSize(Utils.getWindowWidth(), Utils.getWindowHeight());
+        jFrame.setSize(Utils.getWindowSize());
 
         addNorthControls();
         addSimulationViewer();
@@ -56,8 +58,12 @@ public class SimulationWindow {
         JLabel lblZoom = new JLabel("Zoom:", SwingConstants.CENTER);
         rowOne.add(lblZoom);
 
-        SpinnerModel zoomModel = new SpinnerNumberModel(100, 10, 1000,  10);
+        SpinnerModel zoomModel = new SpinnerNumberModel(cellSize, 5, 50,  5);
         spnZoom = new JSpinner(zoomModel);
+        spnZoom.addChangeListener(e -> {
+            cellSize = (int) spnZoom.getValue();
+            addSimulationViewer();
+        });
         rowOne.add(spnZoom);
 
         JLabel lblWidth = new JLabel("Width:", SwingConstants.CENTER);
@@ -95,19 +101,31 @@ public class SimulationWindow {
     }
 
     public void addSimulationViewer() {
-        JPanel newSimulationViewer = new JPanel();
-
         int widthSize = (int) spnWidth.getValue();
         int heightSize = (int) spnHeight.getValue();
 
+        JPanel newSimulationViewer = new JPanel();
+        newSimulationViewer.setPreferredSize(new Dimension(widthSize * 100, heightSize * 100));
+
+        JPanel gridPanel = new JPanel();
         GridLayout gridLayout = new GridLayout(heightSize, widthSize, 0, 0);
-        newSimulationViewer.setLayout(gridLayout);
+        gridPanel.setLayout(gridLayout);
+
+        JScrollPane scrollFrame = new JScrollPane(gridPanel);
+        scrollFrame.setPreferredSize(Utils.getSimulationSize());
+        newSimulationViewer.setAutoscrolls(true);
+        newSimulationViewer.add(scrollFrame);
+
+        if (simulationViewer == null) {
+            simulation = new Simulation(widthSize, heightSize);
+        }
 
         for(int i = 0; i < heightSize; i ++) {
             for(int j = 0; j < widthSize; j ++) {
                 JButton button = new JButton();
-                button.setBackground(gameBoard.board[i][j] ? Color.BLACK : Color.WHITE);
-                newSimulationViewer.add(button);
+                button.setBackground(simulation.board[i][j] ? Color.BLACK : Color.WHITE);
+                button.setPreferredSize(new Dimension(cellSize, cellSize));
+                gridPanel.add(button);
             }
         }
 
@@ -117,8 +135,6 @@ public class SimulationWindow {
             jFrame.revalidate();
         }
         else {
-            gameBoard = new GameBoard(widthSize, heightSize);
-
             jFrame.getContentPane().add(newSimulationViewer, BorderLayout.CENTER);
         }
 
@@ -143,10 +159,17 @@ public class SimulationWindow {
         JButton btnStep = new JButton("Step");
         southControls.add(btnStep);
 
+        JButton btnRandom = new JButton("Random");
+        southControls.add(btnRandom);
+        btnRandom.addActionListener(e -> {
+            simulation.randomBoard();
+            addSimulationViewer();
+        });
+
         JButton btnClear = new JButton("Clear");
         southControls.add(btnClear);
         btnClear.addActionListener(e -> {
-            gameBoard.clearBoard();
+            simulation.clearBoard();
             addSimulationViewer();
         });
 
