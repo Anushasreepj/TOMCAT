@@ -3,6 +3,8 @@ package GUI;
 import java.awt.*;
 
 class Utils {
+    static final int SPACING = 2;
+
     private static int getMinimumResolution() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         return (int) Math.min(size.getWidth(), size.getHeight());
