@@ -29,7 +29,7 @@ public class Controls {
         JLabel lblZoom = new JLabel("Zoom:", SwingConstants.CENTER);
         rowOne.add(lblZoom);
 
-        SpinnerModel zoomModel = new SpinnerNumberModel(Data.INIT_ZOOM, 5, 50,  5);
+        SpinnerModel zoomModel = new SpinnerNumberModel(Data.INIT_ZOOM, 5, Data.MAX_ZOOM,  5);
         data.spnZoom = new JSpinner(zoomModel);
         data.spnZoom.addChangeListener(e -> Viewer.addViewerPanel(data));
         rowOne.add(data.spnZoom);
@@ -55,6 +55,13 @@ public class Controls {
             data.simulation.changeBoardSize(data.getGridWidth(), data.getGridHeight());
             Viewer.addViewerPanel(data);
         });
+
+        JLabel lblFps = new JLabel("FPS:", SwingConstants.CENTER);
+        rowOne.add(lblFps);
+
+        SpinnerModel fpsModel = new SpinnerNumberModel(Data.INIT_FPS, 2, 60, 2);
+        data.spnFps = new JSpinner(fpsModel);
+        rowOne.add(data.spnFps);
     }
 
     private static void addSimulationDetails(Data data) {
@@ -80,8 +87,9 @@ public class Controls {
         data.lblGeneration.setText("Generation: " + data.simulation.generation);
     }
 
-    private static void setStatusLabel(Data data) {
-        data.lblStatus.setText("Status: " + (data.simulation.isRunning ? "Running" : "Idle"));
+    public static void setStatusLabel(Data data) {
+        String status = data.simulation.generation == 0 ? "Idle" : (data.simulation.isRunning ? "Running" : "Stopped");
+        data.lblStatus.setText("Status: " + status);
     }
 
     public static void setPositionLabel(Data data) {

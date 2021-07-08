@@ -55,6 +55,10 @@ public class Viewer {
             data.jFrame.revalidate();
             data.scrollPane.getHorizontalScrollBar().setValue(xScrollPosition);
             data.scrollPane.getVerticalScrollBar().setValue(yScrollPosition);
+
+            Controls.setGenerationLabel(data);
+            Controls.setStatusLabel(data);
+            Controls.setPositionLabel(data);
         }
         else {
             data.jFrame.getContentPane().add(newSimulationViewer, BorderLayout.CENTER);

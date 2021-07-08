@@ -1,5 +1,11 @@
 package Logic;
 
+import GUI.Data;
+
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Simulation {
     public int width;
     public int height;
@@ -73,32 +79,16 @@ public class Simulation {
     private int countNeighbours(int yPosition, int xPosition) {
         int liveNeighbours = 0;
 
-        for(int y = yPosition - 1; y <= yPosition + 1; y++) {
-            for(int x = xPosition - 1; x <= xPosition + 1; x++) {
-                int ySearch = y;
-                int xSearch = x;
+        for(int i = -1; i <= 1; i++) {
+            for(int j = -1; j <= 1; j++) {
+                int ySearch = (yPosition + i + height) % height;
+                int xSearch = (xPosition + j + width) % width;
 
-                if (ySearch == -1) { ySearch = height - 1; }
-                else if (ySearch == height) { ySearch = 0; }
-
-                if (xSearch == -1) { xSearch = width - 1; }
-                else if (xSearch == width) { xSearch = 0; }
-
-                if (ySearch != yPosition && xSearch != xPosition) {
-                    liveNeighbours += board[ySearch][xSearch] ? 1 : 0;
-                }
+                liveNeighbours += board[ySearch][xSearch] ? 1 : 0;
             }
         }
 
-        return liveNeighbours;
-    }
-
-    public void startSim() {
-
-    }
-
-    public void stopSim() {
-
+        return liveNeighbours - (board[yPosition][xPosition] ? 1 : 0);
     }
 
     public void simStep() {
@@ -107,7 +97,7 @@ public class Simulation {
                 boolean state = board[y][x];
                 int neighbours = countNeighbours(y, x);
 
-                if(!state && neighbours == 3) {
+                if (!state && neighbours == 3) {
                     nextBoard[y][x] = true;
                 } else if(state && (neighbours < 2 || 3 < neighbours)) {
                     nextBoard[y][x] = false;

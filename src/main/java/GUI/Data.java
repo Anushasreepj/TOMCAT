@@ -9,8 +9,10 @@ public class Data {
     final static int INIT_ZOOM = 10;
     final static int INIT_WIDTH = 40;
     final static int INIT_HEIGHT = 40;
-    final static int MAX_WIDTH = 80;
-    final static int MAX_HEIGHT = 80;
+    final static int INIT_FPS = 8;
+    final static int MAX_ZOOM = 80;
+    final static int MAX_WIDTH = 100;
+    final static int MAX_HEIGHT = 100;
 
     JFrame jFrame = null;
 
@@ -21,6 +23,7 @@ public class Data {
     JSpinner spnZoom = null;
     JSpinner spnWidth = null;
     JSpinner spnHeight = null;
+    JSpinner spnFps = null;
 
     JLabel lblGeneration = null;
     JLabel lblStatus = null;
@@ -44,6 +47,10 @@ public class Data {
 
     public int getGridHeight() {
         return (int) spnHeight.getValue();
+    }
+
+    public int getFps() {
+        return (int) spnFps.getValue();
     }
 
     public Dimension getCellSize() {
