@@ -1,5 +1,7 @@
 package GUI;
 
+import Logic.Simulation;
+
 import javax.swing.*;
 
 public class WindowUI {

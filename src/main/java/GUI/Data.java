@@ -6,7 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Data {
-    int generation = 0;
+    final static int INIT_WIDTH = 40;
+    final static int INIT_HEIGHT = 40;
+    final static int MAX_WIDTH = 80;
+    final static int MAX_HEIGHT = 80;
 
     JFrame jFrame = null;
 
@@ -17,9 +20,18 @@ public class Data {
     JSpinner spnZoom = null;
     JSpinner spnWidth = null;
     JSpinner spnHeight = null;
-    JLabel lblGeneration = null;
 
-    Simulation simulation = null;
+    JLabel lblGeneration = null;
+    JLabel lblStatus = null;
+    JLabel lblPosition = null;
+
+    JScrollPane scrollPane = null;
+
+    Simulation simulation;
+
+    Data() {
+        simulation = new Simulation(INIT_WIDTH, INIT_HEIGHT, MAX_WIDTH, MAX_HEIGHT);
+    }
 
     public int getZoom() {
         return (int) spnZoom.getValue();

@@ -1,7 +1,5 @@
 package GUI;
 
-import Logic.Simulation;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,20 +9,21 @@ public class Viewer {
         int heightSize = data.getGridHeight();
 
         JPanel newSimulationViewer = new JPanel();
-        newSimulationViewer.setPreferredSize(new Dimension(widthSize * 100, heightSize * 100));
+        newSimulationViewer.setPreferredSize(
+            new Dimension(widthSize * data.getZoom(), heightSize * data.getZoom())
+        );
 
         JPanel gridPanel = new JPanel();
         GridLayout gridLayout = new GridLayout(heightSize, widthSize, 0, 0);
         gridPanel.setLayout(gridLayout);
 
-        JScrollPane scrollFrame = new JScrollPane(gridPanel);
-        scrollFrame.setPreferredSize(Utils.getSimulationSize());
+        data.scrollPane = new JScrollPane(gridPanel);
+        data.scrollPane.setPreferredSize(Utils.getSimulationSize());
         newSimulationViewer.setAutoscrolls(true);
-        newSimulationViewer.add(scrollFrame);
+        newSimulationViewer.add(data.scrollPane);
 
-        if (data.viewerPanel == null) {
-            data.simulation = new Simulation(widthSize, heightSize);
-        }
+        Controls.setPositionLabel(data);
+        data.scrollPane.getViewport().addChangeListener(e -> Controls.setPositionLabel(data));
 
         for(int i = 0; i < heightSize; i ++) {
             for(int j = 0; j < widthSize; j ++) {
@@ -45,5 +44,13 @@ public class Viewer {
         }
 
         data.viewerPanel = newSimulationViewer;
+    }
+
+    public static int getScrollXPosition(Data data) {
+        return data.scrollPane.getHorizontalScrollBar().getValue();
+    }
+
+    public static int getScrollYPosition(Data data) {
+        return data.scrollPane.getVerticalScrollBar().getValue();
     }
 }

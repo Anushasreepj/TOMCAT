@@ -1,5 +1,7 @@
 package GUI;
 
+import Logic.Simulation;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -37,18 +39,24 @@ public class Controls {
         JLabel lblWidth = new JLabel("Width:", SwingConstants.CENTER);
         rowOne.add(lblWidth);
 
-        SpinnerModel widthModel = new SpinnerNumberModel(40, 10, 80,  10);
+        SpinnerModel widthModel = new SpinnerNumberModel(Data.INIT_WIDTH, 10, Data.MAX_WIDTH, 10);
         data.spnWidth = new JSpinner(widthModel);
-        data.spnWidth.addChangeListener(e -> Viewer.addViewerPanel(data));
         rowOne.add(data.spnWidth);
+        data.spnWidth.addChangeListener(e -> {
+            data.simulation.changeBoardSize(data.getGridWidth(), data.getGridHeight());
+            Viewer.addViewerPanel(data);
+        });
 
         JLabel lblHeight = new JLabel("Height:", SwingConstants.CENTER);
         rowOne.add(lblHeight);
 
-        SpinnerModel heightModel = new SpinnerNumberModel(40, 10, 80,  10);
+        SpinnerModel heightModel = new SpinnerNumberModel(Data.INIT_HEIGHT, 10, Data.MAX_HEIGHT, 10);
         data.spnHeight = new JSpinner(heightModel);
-        data.spnHeight.addChangeListener(e -> Viewer.addViewerPanel(data));
         rowOne.add(data.spnHeight);
+        data.spnHeight.addChangeListener(e -> {
+            data.simulation.changeBoardSize(data.getGridWidth(), data.getGridHeight());
+            Viewer.addViewerPanel(data);
+        });
     }
 
     private static void addSimulationDetails(Data data) {
@@ -58,17 +66,31 @@ public class Controls {
         GridLayout gridTwoLayout = new GridLayout(1, 0, Utils.SPACING, Utils.SPACING);
         rowTwo.setLayout(gridTwoLayout);
 
-        data.lblGeneration = new JLabel("Generation: 0", SwingConstants.CENTER);
+        data.lblGeneration = new JLabel("", SwingConstants.CENTER);
+        setGenerationLabel(data);
         rowTwo.add(data.lblGeneration);
 
-        JLabel lblStatus = new JLabel("Status: Stopped", SwingConstants.CENTER);
-        rowTwo.add(lblStatus);
+        data.lblStatus = new JLabel("", SwingConstants.CENTER);
+        setStatusLabel(data);
+        rowTwo.add(data.lblStatus);
 
-        JLabel lblPositions = new JLabel("Position: (x, y)", SwingConstants.CENTER);
-        rowTwo.add(lblPositions);
+        data.lblPosition = new JLabel("", SwingConstants.CENTER);
+        rowTwo.add(data.lblPosition);
     }
 
-    private static void setGeneration(Data data) {
-        data.lblGeneration.setText("Generation: " + data.generation);
+    private static void setGenerationLabel(Data data) {
+        data.lblGeneration.setText("Generation: " + data.simulation.generation);
+    }
+
+    private static void setStatusLabel(Data data) {
+        data.lblStatus.setText("Status: " + (data.simulation.isRunning ? "Running" : "Idle"));
+    }
+
+    public static void setPositionLabel(Data data) {
+        data.lblPosition.setText(
+            "View Position: (" +
+            Viewer.getScrollXPosition(data) / data.getZoom() + ", " +
+            Viewer.getScrollYPosition(data) / data.getZoom() + ")"
+        );
     }
 }
