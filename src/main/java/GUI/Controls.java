@@ -1,7 +1,5 @@
 package GUI;
 
-import Logic.Simulation;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -31,7 +29,7 @@ public class Controls {
         JLabel lblZoom = new JLabel("Zoom:", SwingConstants.CENTER);
         rowOne.add(lblZoom);
 
-        SpinnerModel zoomModel = new SpinnerNumberModel(15, 5, 50,  5);
+        SpinnerModel zoomModel = new SpinnerNumberModel(Data.INIT_ZOOM, 5, 50,  5);
         data.spnZoom = new JSpinner(zoomModel);
         data.spnZoom.addChangeListener(e -> Viewer.addViewerPanel(data));
         rowOne.add(data.spnZoom);
@@ -78,7 +76,7 @@ public class Controls {
         rowTwo.add(data.lblPosition);
     }
 
-    private static void setGenerationLabel(Data data) {
+    public static void setGenerationLabel(Data data) {
         data.lblGeneration.setText("Generation: " + data.simulation.generation);
     }
 

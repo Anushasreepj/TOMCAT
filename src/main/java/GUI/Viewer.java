@@ -5,6 +5,9 @@ import java.awt.*;
 
 public class Viewer {
     public static void addViewerPanel(Data data) {
+        int xScrollPosition = 0;
+        int yScrollPosition = 0;
+
         int widthSize = data.getGridWidth();
         int heightSize = data.getGridHeight();
 
@@ -17,6 +20,11 @@ public class Viewer {
         GridLayout gridLayout = new GridLayout(heightSize, widthSize, 0, 0);
         gridPanel.setLayout(gridLayout);
 
+        if(data.viewerPanel != null) {
+            yScrollPosition = data.scrollPane.getVerticalScrollBar().getValue();
+            xScrollPosition = data.scrollPane.getHorizontalScrollBar().getValue();
+        }
+
         data.scrollPane = new JScrollPane(gridPanel);
         data.scrollPane.setPreferredSize(Utils.getSimulationSize());
         newSimulationViewer.setAutoscrolls(true);
@@ -25,12 +33,19 @@ public class Viewer {
         Controls.setPositionLabel(data);
         data.scrollPane.getViewport().addChangeListener(e -> Controls.setPositionLabel(data));
 
-        for(int i = 0; i < heightSize; i ++) {
-            for(int j = 0; j < widthSize; j ++) {
+        for(int y = 0; y < heightSize; y++) {
+            for(int x = 0; x < widthSize; x++) {
                 JButton button = new JButton();
-                button.setBackground(data.simulation.board[i][j] ? Color.BLACK : Color.WHITE);
                 button.setPreferredSize(data.getCellSize());
+                updateButtonColour(button, data.simulation.board[y][x]);
                 gridPanel.add(button);
+
+                int finalY = y;
+                int finalX = x;
+                button.addActionListener(e -> {
+                    data.simulation.switchCell(finalY, finalX);
+                    updateButtonColour(button, data.simulation.board[finalY][finalX]);
+                });
             }
         }
 
@@ -38,12 +53,18 @@ public class Viewer {
             data.jFrame.getContentPane().remove(data.viewerPanel);
             data.jFrame.getContentPane().add(newSimulationViewer, BorderLayout.CENTER);
             data.jFrame.revalidate();
+            data.scrollPane.getHorizontalScrollBar().setValue(xScrollPosition);
+            data.scrollPane.getVerticalScrollBar().setValue(yScrollPosition);
         }
         else {
             data.jFrame.getContentPane().add(newSimulationViewer, BorderLayout.CENTER);
         }
 
         data.viewerPanel = newSimulationViewer;
+    }
+
+    private static void updateButtonColour(JButton button, boolean cellState) {
+        button.setBackground(cellState ? Color.BLACK : Color.WHITE);
     }
 
     public static int getScrollXPosition(Data data) {

@@ -33,6 +33,7 @@ public class Actions {
         btnStep.addActionListener(e -> {
             data.simulation.simStep();
             Viewer.addViewerPanel(data);
+            Controls.setGenerationLabel(data);
         });
 
         JButton btnRandom = new JButton("Random");

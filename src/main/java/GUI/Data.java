@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Data {
+    final static int INIT_ZOOM = 10;
     final static int INIT_WIDTH = 40;
     final static int INIT_HEIGHT = 40;
     final static int MAX_WIDTH = 80;

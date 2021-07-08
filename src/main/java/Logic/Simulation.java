@@ -8,13 +8,17 @@ public class Simulation {
     public boolean isRunning = false;
 
     public boolean[][] board;
+    public boolean[][] nextBoard;
 
     public Simulation(int init_width, int init_height, int max_width, int max_height) {
         this.width = init_width;
         this.height = init_height;
 
-        board = new boolean[max_width][max_height];
+        board = new boolean[max_height][max_width];
+        nextBoard = new boolean[max_height][max_width];
+
         clearBoard();
+        clearNextBoard();
     }
 
     public void changeBoardSize(int new_width, int new_height) {
@@ -38,6 +42,10 @@ public class Simulation {
         this.height = new_height;
     }
 
+    public void switchCell(int yPosition, int xPosition) {
+        board[yPosition][xPosition] = !board[yPosition][xPosition];
+    }
+
     public void randomBoard() {
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
@@ -54,6 +62,37 @@ public class Simulation {
         }
     }
 
+    public void clearNextBoard() {
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                nextBoard[y][x] = false;
+            }
+        }
+    }
+
+    private int countNeighbours(int yPosition, int xPosition) {
+        int liveNeighbours = 0;
+
+        for(int y = yPosition - 1; y <= yPosition + 1; y++) {
+            for(int x = xPosition - 1; x <= xPosition + 1; x++) {
+                int ySearch = y;
+                int xSearch = x;
+
+                if (ySearch == -1) { ySearch = height - 1; }
+                else if (ySearch == height) { ySearch = 0; }
+
+                if (xSearch == -1) { xSearch = width - 1; }
+                else if (xSearch == width) { xSearch = 0; }
+
+                if (ySearch != yPosition && xSearch != xPosition) {
+                    liveNeighbours += board[ySearch][xSearch] ? 1 : 0;
+                }
+            }
+        }
+
+        return liveNeighbours;
+    }
+
     public void startSim() {
 
     }
@@ -63,6 +102,26 @@ public class Simulation {
     }
 
     public void simStep() {
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                boolean state = board[y][x];
+                int neighbours = countNeighbours(y, x);
 
+                if(!state && neighbours == 3) {
+                    nextBoard[y][x] = true;
+                } else if(state && (neighbours < 2 || 3 < neighbours)) {
+                    nextBoard[y][x] = false;
+                } else {
+                    nextBoard[y][x] = state;
+                }
+            }
+        }
+
+        for(int y = 0; y < height; y++) {
+            System.arraycopy(nextBoard[y], 0, board[y], 0, width);
+        }
+
+        generation++;
+        clearNextBoard();
     }
 }
