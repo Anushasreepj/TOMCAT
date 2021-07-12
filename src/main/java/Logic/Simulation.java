@@ -2,9 +2,7 @@ package Logic;
 
 import GUI.Data;
 
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
 
 public class Simulation {
     public int width;
@@ -113,5 +111,50 @@ public class Simulation {
 
         generation++;
         clearNextBoard();
+    }
+
+    public void loadBoard(String boardPath) {
+        ArrayList<String> boardContent = FileHandler.readFile(boardPath);
+
+        height = boardContent.size();
+        width = boardContent.get(0).length();
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                board[y][x] = boardContent.get(y).charAt(x) == '1';
+            }
+        }
+    }
+
+    public void saveBoard(String boardPath) {
+        ArrayList<String> boardContent = new ArrayList<>();
+
+        for(int y = 0; y < height; y++) {
+            StringBuilder line = new StringBuilder();
+
+            for(int x = 0; x < width; x++) {
+                line.append(board[y][x] ? "1" : "0");
+            }
+
+            boardContent.add(line + "\n");
+        }
+
+        FileHandler.saveFile(boardPath, boardContent);
+    }
+
+    public void loadPattern(Data data, int startY, int startX) {
+        String patternPath = data.loadPattern;
+        ArrayList<String> patternContent = FileHandler.readFile(patternPath);
+
+        int endY = startY + patternContent.size();
+        int endX = startX + patternContent.get(0).length();
+
+        for(int y = startY; y < endY; y++) {
+            for(int x = startX; x < endX; x++) {
+                if (y < height && x < width) {
+                    board[y][x] = patternContent.get(y - startY).charAt(x- startX) == '1';
+                }
+            }
+        }
     }
 }

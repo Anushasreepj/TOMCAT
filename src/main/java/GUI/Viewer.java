@@ -43,8 +43,16 @@ public class Viewer {
                 int finalY = y;
                 int finalX = x;
                 button.addActionListener(e -> {
-                    data.simulation.switchCell(finalY, finalX);
-                    updateButtonColour(button, data.simulation.board[finalY][finalX]);
+                    if (data.loadPattern.equals("")) {
+                        data.simulation.switchCell(finalY, finalX);
+                        updateButtonColour(button, data.simulation.board[finalY][finalX]);
+                    } else {
+                        data.simulation.loadPattern(data, finalY, finalX);
+                        data.loadPattern = "";
+                        Viewer.addViewerPanel(data);
+                    }
+
+                    Controls.setBrushLabel(data);
                 });
             }
         }
@@ -59,6 +67,7 @@ public class Viewer {
             Controls.setGenerationLabel(data);
             Controls.setStatusLabel(data);
             Controls.setPositionLabel(data);
+            Controls.setBrushLabel(data);
         }
         else {
             data.jFrame.getContentPane().add(newSimulationViewer, BorderLayout.CENTER);

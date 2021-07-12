@@ -14,7 +14,16 @@ public class Data {
     final static int MAX_WIDTH = 100;
     final static int MAX_HEIGHT = 100;
 
+    public String loadPattern = "";
+    final static String PATTERN_FOLDER = "Patterns";
+    final static String PATTERN_PATHS = PATTERN_FOLDER + "/_patterns.txt";
+
     JFrame jFrame = null;
+
+    JMenuBar menuBar = null;
+    JMenu fileMenu = null;
+    JMenu brushMenu = null;
+    JMenu helpMenu = null;
 
     JPanel controlsPanel = null;
     JPanel viewerPanel = null;
@@ -25,9 +34,12 @@ public class Data {
     JSpinner spnHeight = null;
     JSpinner spnFps = null;
 
+    JToggleButton brushToggle = null;
+
     JLabel lblGeneration = null;
     JLabel lblStatus = null;
     JLabel lblPosition = null;
+    JLabel lblBrush = null;
 
     JScrollPane scrollPane = null;
 

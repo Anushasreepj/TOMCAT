@@ -1,5 +1,7 @@
 package GUI;
 
+import Logic.PathHandler;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -81,6 +83,10 @@ public class Controls {
 
         data.lblPosition = new JLabel("", SwingConstants.CENTER);
         rowTwo.add(data.lblPosition);
+
+        data.lblBrush = new JLabel("", SwingConstants.CENTER);
+        setBrushLabel(data);
+        rowTwo.add(data.lblBrush);
     }
 
     public static void setGenerationLabel(Data data) {
@@ -97,6 +103,13 @@ public class Controls {
             "View Position: (" +
             Viewer.getScrollXPosition(data) / data.getZoom() + ", " +
             Viewer.getScrollYPosition(data) / data.getZoom() + ")"
+        );
+    }
+
+    public static void setBrushLabel(Data data) {
+        data.lblBrush.setText(
+            "Brush: " +
+            (data.loadPattern.equals("") ? "Cell" : PathHandler.getPatternName(data.loadPattern))
         );
     }
 }

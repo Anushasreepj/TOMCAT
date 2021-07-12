@@ -1,7 +1,5 @@
 package GUI;
 
-import Logic.Simulation;
-
 import javax.swing.*;
 
 public class WindowUI {
@@ -12,8 +10,10 @@ public class WindowUI {
     }
 
     public void createWindow() {
-        data.jFrame = new JFrame("Game Of Life");
+        data.jFrame = new JFrame("Game of Life");
         data.jFrame.setSize(Utils.getWindowSize());
+
+        SimMenu.addMenuBar(data);
 
         Controls.addControlsPanel(data);
         Viewer.addViewerPanel(data);
