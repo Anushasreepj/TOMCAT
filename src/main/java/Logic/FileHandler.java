@@ -57,9 +57,10 @@ public class FileHandler {
             ArrayList<String> fileContent = readFile(patternPaths);
 
             if (!isUnique || !fileContent.contains(loadPattern)) {
-                FileWriter myWriter = new FileWriter(patternPaths);
-                myWriter.write(loadPattern + "\n");
-                myWriter.close();
+                FileWriter fileWriter = new FileWriter(patternPaths, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write(loadPattern + "\n");
+                bufferedWriter.close();
             }
         } catch (IOException e) {
             e.printStackTrace();

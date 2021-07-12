@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
@@ -96,12 +95,9 @@ public class SimMenu {
 
             if(operationIndex == JFileChooser.APPROVE_OPTION) {
                 String selectedPath = jFileChooser.getSelectedFile().getAbsolutePath();
-                String workingPath = new File("").getAbsolutePath();
+                data.loadPattern = PathHandler.getRelativePath(selectedPath);
+                Controls.setBrushLabel(data);
 
-                URI selectedPathUri = new File(selectedPath).toURI();
-                URI workingPathUri = new File(workingPath).toURI();
-
-                data.loadPattern = workingPathUri.relativize(selectedPathUri).toString();
                 FileHandler.addLine(Data.PATTERN_PATHS, data.loadPattern, true);
                 addMenuBar(data);
             }
@@ -125,12 +121,10 @@ public class SimMenu {
 
             if(operationIndex == JFileChooser.APPROVE_OPTION) {
                 String selectedPath = jFileChooser.getSelectedFile().getAbsolutePath();
-                String workingPath = new File("").getAbsolutePath();
+                data.loadPattern = "";
+                Controls.setBrushLabel(data);
 
-                URI selectedPathUri = new File(selectedPath).toURI();
-                URI workingPathUri = new File(workingPath).toURI();
-
-                String patternPath = workingPathUri.relativize(selectedPathUri).toString();
+                String patternPath = PathHandler.getRelativePath(selectedPath);
                 FileHandler.removeLineFromFile(Data.PATTERN_PATHS, patternPath);
                 addMenuBar(data);
             }
@@ -175,7 +169,7 @@ public class SimMenu {
 
                 while (fileReader.hasNextLine()) {
                     String patternPath = fileReader.nextLine();
-                    String patternName = PathHandler.getPatternName(patternPath);
+                    String patternName = PathHandler.getPrettyPatternName(patternPath);
 
                     filePattern = new JMenuItem(patternName);
                     data.brushMenu.add(filePattern);

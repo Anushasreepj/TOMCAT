@@ -109,7 +109,7 @@ public class Controls {
     public static void setBrushLabel(Data data) {
         data.lblBrush.setText(
             "Brush: " +
-            (data.loadPattern.equals("") ? "Cell" : PathHandler.getPatternName(data.loadPattern))
+            (data.loadPattern.equals("") ? "Cell" : PathHandler.getPrettyPatternName(data.loadPattern))
         );
     }
 }

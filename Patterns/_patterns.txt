@@ -1,1 +1,9 @@
-Patterns/tub.txt
+Patterns/blinker.txt
+Patterns/toad.txt
+Patterns/beacon.txt
+Patterns/pulsar.txt
+Patterns/pentaDecathlon.txt
+Patterns/glider.txt
+Patterns/lightWeightSpaceship.txt
+Patterns/middleWeightSpaceship.txt
+Patterns/heavyWeightSpaceship.txt
