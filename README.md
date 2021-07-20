@@ -8,12 +8,6 @@ The Game of Life is a simulation on a grid of cells where each cell can either b
     <img src="https://user-images.githubusercontent.com/23166383/126402134-6f2cf8ba-ef29-4f7c-b66e-724f3879bb1b.gif" width="auto" alt="Simulation Example" />
 </p>
 
-## Change Size and Resolution
-
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/23166383/126402183-d8876f8f-f3cb-49b4-baea-35d00ce83902.gif" width="auto" alt="Size Resolution" />
-</p>
-
 ## Save and Load Board
 
 <p align="center">
@@ -24,4 +18,10 @@ The Game of Life is a simulation on a grid of cells where each cell can either b
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/23166383/126402272-dd4afa0c-8e28-4aed-bc38-2ea5c0cb6364.gif" width="auto" alt="Pattern Functionality" />
+</p>
+
+## Change Size and Resolution
+
+<p align="center">
+    <img src="https://user-images.githubusercontent.com/23166383/126404471-ac357e40-45eb-4f0a-ad62-61b01144fcc8.gif" width="auto" alt="Size Resolution" />
 </p>
