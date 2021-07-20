@@ -136,7 +136,7 @@ public class Simulation {
                 line.append(board[y][x] ? "1" : "0");
             }
 
-            boardContent.add(line + "\n");
+            boardContent.add(String.valueOf(line));
         }
 
         FileHandler.saveFile(boardPath, boardContent);
